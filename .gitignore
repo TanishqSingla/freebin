@@ -1,0 +1,4 @@
+.env
+
+nginx.conf.compiled
+logs/
