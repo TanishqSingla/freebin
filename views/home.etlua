@@ -1,9 +1,10 @@
+<link href="/static/index.css" rel="stylesheet" />
+
 <div>
 	<form method="POST">
-		<textarea name="content"></textarea>
-		<button type="submit">Share link</button>
-		<% if res.status == 422 then %>
-			<%= res.status %>
-		<% end %>
+		<div>
+			<textarea name="content"></textarea>
+			<button type="submit">Share link</button>
+		</div>
 	</form>
 </div>

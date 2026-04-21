@@ -13,7 +13,12 @@ RUN apk add --no-cache \
 	openresty
 
 RUN luarocks-5.1 install lapis
+RUN luarocks-5.1 install base64
 
 WORKDIR /app
 
 COPY . .
+
+EXPOSE 8080
+
+CMD ["lapis", "server", "development"]

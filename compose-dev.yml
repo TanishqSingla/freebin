@@ -3,16 +3,32 @@ services:
     container_name: freebin-db
     image: postgres:17-alpine
     environment: 
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
 
     healthcheck:
       interval: 5s
       retries: 5
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_DATABASE}" ]
       timeout: 5s
 
     ports:
       - "5432:5432"
+
+  freebin-server:
+    container_name: freebin-server
+    build:
+      dockerfile: Containerfile
+
+    volumes:
+      - .:/app
+
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+
+    ports:
+      - "8080:8080"
 

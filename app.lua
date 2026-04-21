@@ -4,6 +4,13 @@ local app = lapis.Application()
 local respond_to = require("lapis.application").respond_to
 local validate = require("lapis.validate")
 
+local pkey = require("openssl.pkey")
+
+local rsa = pkey.new({ type = 'RSA', bits = 512 })
+
+local public, private = rsa:toPEM("public", "private")
+print(public)
+print(ngx.encode_base64(public))
 app:enable("etlua")
 
 app:match("home", "/", respond_to({
@@ -11,14 +18,12 @@ app:match("home", "/", respond_to({
 		return { render = true }
 	end,
 	POST = function (self)
-		local err = validate.validate(self.POST, {
-			{ "content", exists = true, min_length = 2 }
-		})
+--		local ciphertext = public_key.encrypt(self.POST.content, "oaep")
 
-		if err ~= nil then
-			self.err = { message = "validation error" }
-			return { render = true, status = 422 }
-		end
+--		print("Encrypted data (hex):", ciphertext:gsub('.', function (c)
+--			return string.format('%02X', string.byte(c))
+--		end))
+
 
 		return { render = true }
 	end
